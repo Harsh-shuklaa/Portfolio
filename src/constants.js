@@ -32,7 +32,7 @@ import netlifyLogo from './assets/tech_logo/netlify.png';
 import vercelLogo from './assets/tech_logo/vercel.png';
 import postgreLogo from './assets/tech_logo/postgre.png';
 import csharpLogo from './assets/tech_logo/csharp.png';
-import chessLogo from './assets/work_logo/chess.png'
+
 
 
 // Experience Section Logo's
@@ -56,6 +56,7 @@ import webverLogo from './assets/work_logo/web_dig.png';
 import cmLogo from './assets/work_logo/cm.png';
 import imagesearchLogo from './assets/work_logo/image_search.png';
 import removebgLogo from './assets/work_logo/remove_bg.png';
+import chessLogo from './assets/work_logo/Chess.png'
 
 
 export const SkillsInfo = [
