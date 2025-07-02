@@ -24,7 +24,7 @@ const App = () => {
         <LeetCodeSection/>
         <Skills />
         <Experience />
-        {/* <Work /> */}
+        <Work />
         <Education />
         <Contact />
         <Footer />
