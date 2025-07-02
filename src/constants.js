@@ -113,6 +113,22 @@ export const SkillsInfo = [
   },
 ];
 
+
+// LeetCode Stats Section
+export const leetcodeStats = {
+  username: "Harsh1516",
+  profileUrl: "https://leetcode.com/Harsh1516/",
+  apiUrl: "https://leetcode-stats-api.herokuapp.com/Harsh1516",
+  
+  heading: "🚀 My LeetCode Stats",
+  statsToShow: [
+    { label: "Total Solved", key: "totalSolved" },
+    { label: "Medium", key: "mediumSolved" },
+    { label: "Hard", key: "hardSolved" },
+    { label: "Ranking", key: "ranking" }
+  ],
+};
+
   export const experiences = [
     {
       id: 0,

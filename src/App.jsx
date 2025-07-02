@@ -8,6 +8,7 @@ import Education from "./components/Education/Education";
 import Contact from "./components/Contact/Contact";
 import Footer from "./components/Footer/Footer";
 import BlurBlob from './components/BlurBlob';
+import LeetCodeSection from "./components/LeetCode/LeetCodeSection";
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
       <div className="relative pt-20">
         <Navbar />
         <About />
+        <LeetCodeSection/>
         <Skills />
         <Experience />
         {/* <Work /> */}
