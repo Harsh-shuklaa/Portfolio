@@ -5,10 +5,11 @@ const Experience = () => {
   return (
     <section
       id="experience"
-      className="py-24 px-6 md:px-12 lg:px-[16vw] font-sans bg-skills-gradient clip-path-custom-2"
+      className="py-24 px-6 md:px-12 lg:px-[16vw] font-sans bg-skills-gradient clip-path-custom-2 scroll-mt-20"
+      data-aos="fade-up"
     >
       {/* Section Title */}
-      <div className="text-center mb-16">
+      <div className="text-center mb-16" data-aos="fade-down">
         <h2 className="text-4xl font-bold text-white">EXPERIENCE</h2>
         <div className="w-24 h-1 bg-purple-500 mx-auto mt-4"></div>
         <p className="text-gray-400 mt-4 text-lg font-semibold max-w-2xl mx-auto">
@@ -25,9 +26,11 @@ const Experience = () => {
         {experiences.map((experience, index) => (
           <div
             key={experience.id}
-            className={`relative flex flex-col sm:flex-row items-center gap-4 mb-20  z-10 ${
+            className={`relative flex flex-col sm:flex-row items-center gap-4 mb-20 z-10 ${
               index % 2 === 0 ? "sm:justify-end" : "sm:justify-start"
             }`}
+            data-aos="fade-up"
+            data-aos-delay={index * 100}
           >
             {/* Timeline Dot */}
             <div className="absolute left-1/2 transform -translate-x-1/2 w-10 h-10 sm:w-16 sm:h-16 bg-gray-900 border-4 border-purple-500 rounded-full flex items-center justify-center z-20">
@@ -40,7 +43,7 @@ const Experience = () => {
 
             {/* Experience Card */}
             <div
-              className={`w-full sm:max-w-[90%] md:max-w-[500px] p-6 sm:p-8 rounded-2xl shadow-xl border border-white bg-gray-900 backdrop-blur-md transition-transform duration-300 hover:scale-105 ${
+              className={`w-full sm:max-w-[90%] md:max-w-[500px] p-6 sm:p-8 rounded-2xl shadow-xl bg-gray-900 backdrop-blur-md transition-transform duration-300 hover:scale-105 ${
                 index % 2 === 0 ? "sm:ml-44" : "sm:mr-44"
               } mt-16 sm:mt-0`}
             >

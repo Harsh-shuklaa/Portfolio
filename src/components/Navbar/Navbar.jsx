@@ -1,27 +1,60 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("");
   const [isScrolled, setIsScrolled] = useState(false);
+  const sectionRefs = useRef({});
 
-  // Detect scroll and change navbar background
+  // Init AOS
+  useEffect(() => {
+    AOS.init({ duration: 800 });
+  }, []);
+
+  // Scroll shadow logic
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Smooth scroll function
-  const handleMenuItemClick = (sectionId) => {
-    setActiveSection(sectionId);
-    setIsOpen(false);
+  // IntersectionObserver for active section tracking
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      {
+        root: null,
+        rootMargin: "0px",
+        threshold: 0.6,
+      }
+    );
 
+    Object.values(sectionRefs.current).forEach((el) => {
+      if (el) observer.observe(el);
+    });
+
+    return () => {
+      Object.values(sectionRefs.current).forEach((el) => {
+        if (el) observer.unobserve(el);
+      });
+    };
+  }, []);
+
+  // Scroll to section on click
+  const handleMenuItemClick = (sectionId) => {
+    setIsOpen(false);
     const section = document.getElementById(sectionId);
     if (section) {
       section.scrollIntoView({ behavior: "smooth" });
@@ -30,9 +63,9 @@ const Navbar = () => {
 
   const menuItems = [
     { id: "about", label: "About" },
-  
     { id: "skills", label: "Skills" },
     { id: "experience", label: "Experience" },
+    { id: "leetcode", label: "LeetCode" }, // ✅ Added
     { id: "work", label: "Projects" },
     { id: "education", label: "Education" },
   ];
@@ -42,6 +75,7 @@ const Navbar = () => {
       className={`fixed top-0 w-full z-50 transition duration-300 px-[7vw] md:px-[7vw] lg:px-[20vw] ${
         isScrolled ? "bg-[#050414] bg-opacity-50 backdrop-blur-md shadow-md" : "bg-transparent"
       }`}
+      data-aos="fade-down"
     >
       <div className="text-white py-5 flex justify-between items-center">
         {/* Logo */}
@@ -58,13 +92,11 @@ const Navbar = () => {
           {menuItems.map((item) => (
             <li
               key={item.id}
-              className={`cursor-pointer hover:text-[#8245ec] ${
-                activeSection === item.id ? "text-[#8245ec]" : ""
+              className={`cursor-pointer hover:text-[#8245ec] transition ${
+                activeSection === item.id ? "text-[#8245ec] font-medium" : ""
               }`}
             >
-              <button onClick={() => handleMenuItemClick(item.id)}>
-                {item.label}
-              </button>
+              <button onClick={() => handleMenuItemClick(item.id)}>{item.label}</button>
             </li>
           ))}
         </ul>
@@ -105,20 +137,18 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Menu Items */}
+      {/* Mobile Menu */}
       {isOpen && (
         <div className="absolute top-16 left-1/2 transform -translate-x-1/2 w-4/5 bg-[#050414] bg-opacity-50 backdrop-filter backdrop-blur-lg z-50 rounded-lg shadow-lg md:hidden">
           <ul className="flex flex-col items-center space-y-4 py-4 text-gray-300">
             {menuItems.map((item) => (
               <li
                 key={item.id}
-                className={`cursor-pointer hover:text-white ${
+                className={`cursor-pointer hover:text-white transition ${
                   activeSection === item.id ? "text-[#8245ec]" : ""
                 }`}
               >
-                <button onClick={() => handleMenuItemClick(item.id)}>
-                  {item.label}
-                </button>
+                <button onClick={() => handleMenuItemClick(item.id)}>{item.label}</button>
               </li>
             ))}
             <div className="flex space-x-4">

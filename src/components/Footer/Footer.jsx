@@ -1,8 +1,12 @@
 import React from "react";
-import { FaFacebook, FaTwitter, FaLinkedin, FaInstagram, FaYoutube } from "react-icons/fa";
+import { FaLinkedin, FaInstagram } from "react-icons/fa";
+import { motion } from "framer-motion";
+import AOS from "aos";
+import "aos/dist/aos.css";
+
+AOS.init();
 
 const Footer = () => {
-  // Smooth scroll function
   const handleScroll = (sectionId) => {
     const section = document.getElementById(sectionId);
     if (section) {
@@ -11,13 +15,21 @@ const Footer = () => {
   };
 
   return (
-    <footer className="text-white py-8 px-[12vw] md:px-[7vw] lg:px-[20vw]">
-      <div className="container mx-auto text-center">
+    <motion.footer
+      className="text-white py-10 px-[12vw] md:px-[7vw] lg:px-[20vw]"
+      data-aos="fade-up"
+      data-aos-duration="1000"
+      initial={{ opacity: 0, y: 60 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 1 }}
+      viewport={{ once: true }}
+    >
+      <div className="text-center space-y-6">
         {/* Name / Logo */}
-        <h2 className="text-xl font-semibold text-purple-500">Harsh Shukla</h2>
+        <h2 className="text-2xl font-bold text-purple-500 tracking-wide">Harsh Shukla</h2>
 
-        {/* Navigation Links - Responsive */}
-        <nav className="flex flex-wrap justify-center space-x-4 sm:space-x-6 mt-4">
+        {/* Navigation Links */}
+        <nav className="flex flex-wrap justify-center gap-4 text-sm sm:text-base font-medium">
           {[
             { name: "About", id: "about" },
             { name: "Skills", id: "skills" },
@@ -28,41 +40,40 @@ const Footer = () => {
             <button
               key={index}
               onClick={() => handleScroll(item.id)}
-              className="hover:text-purple-500 text-sm sm:text-base my-1"
+              className="text-gray-300 hover:text-purple-500 transition-colors duration-300 px-2 py-1 hover:underline underline-offset-4"
             >
               {item.name}
             </button>
           ))}
         </nav>
 
-        {/* Social Media Icons - Responsive */}
-        <div className="flex flex-wrap justify-center space-x-4 mt-6">
+        {/* Social Icons */}
+        <div className="flex justify-center gap-6 text-2xl text-gray-300 mt-4">
           {[
-            // { icon: <FaFacebook />, link: "https://www.facebook.com/tarun.kaushik.3511041/" },
-            // { icon: <FaTwitter />, link: "https://twitter.com/CodingMaster6?s=09" },
             { icon: <FaLinkedin />, link: "https://www.linkedin.com/in/harsh-shukla-2b60142b1/" },
             { icon: <FaInstagram />, link: "https://www.instagram.com/harrsshhh_01/?__pwa=1" },
-            // { icon: <FaYoutube />, link: "https://www.youtube.com/codingmasteryt" },
-            
           ].map((item, index) => (
             <a
               key={index}
               href={item.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xl hover:text-purple-500 transition-transform transform hover:scale-110"
+              className="hover:text-purple-500 transform hover:scale-110 transition duration-300"
             >
               {item.icon}
             </a>
           ))}
         </div>
 
-        {/* Copyright Text */}
-        <p className="text-sm text-gray-400 mt-6">
-          © 2025 Harsh Shukla. All rights reserved.
+        {/* Divider */}
+        <div className="h-px w-3/4 mx-auto bg-gray-700 mt-6"></div>
+
+        {/* Copyright */}
+        <p className="text-sm text-gray-500 mt-4">
+          © 2025 <span className="text-purple-400 font-semibold">Harsh Shukla</span>. All rights reserved.
         </p>
       </div>
-    </footer>
+    </motion.footer>
   );
 };
 

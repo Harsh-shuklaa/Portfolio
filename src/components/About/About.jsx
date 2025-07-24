@@ -2,6 +2,11 @@ import React from 'react';
 import ReactTypingEffect from 'react-typing-effect';
 import Tilt from 'react-parallax-tilt';
 import profileImage from '../../assets/profile2.png';
+import { motion } from 'framer-motion';
+import 'aos/dist/aos.css';
+import AOS from 'aos';
+
+AOS.init();
 
 const About = () => {
   return (
@@ -9,9 +14,20 @@ const About = () => {
       id="about"
       className="py-20 px-6 sm:px-[8vw] lg:px-[18vw] font-sans"
     >
-      <div className="flex flex-col-reverse lg:flex-row items-center gap-14 lg:gap-24">
+      <div
+        className="flex flex-col-reverse lg:flex-row items-center gap-14 lg:gap-24"
+        data-aos="fade-up"
+        data-aos-duration="1200"
+        data-aos-once="true"
+      >
         {/* === Left: Text Content === */}
-        <div className="w-full lg:w-1/2 text-center lg:text-left">
+        <motion.div
+          className="w-full lg:w-1/2 text-center lg:text-left"
+          initial={{ x: -100, opacity: 0 }}
+          whileInView={{ x: 0, opacity: 1 }}
+          transition={{ duration: 1 }}
+          viewport={{ once: true }}
+        >
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-2">
             Hi, I am
           </h1>
@@ -40,11 +56,12 @@ const About = () => {
             challenge!
           </p>
 
-          <a
-            href="https://drive.google.com/file/d/1g4qYpxzQUGQsi-QuWqs5FCrAPbButbkD/view"
+          <motion.a
+            href="https://drive.google.com/file/d/1vjqgzg2W7HIpxZVY6dUNvX4ZRcf4WRWD/view?usp=sharing"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block text-white py-3 px-8 rounded-full text-lg font-bold transition-transform duration-300 hover:scale-105"
+            whileHover={{ scale: 1.08 }}
             style={{
               background: 'linear-gradient(90deg, #8245ec, #a855f7)',
               boxShadow:
@@ -52,11 +69,17 @@ const About = () => {
             }}
           >
             DOWNLOAD CV
-          </a>
-        </div>
+          </motion.a>
+        </motion.div>
 
         {/* === Right: Profile Image with Tilt === */}
-        <div className="w-full lg:w-1/2 flex justify-center">
+        <motion.div
+          className="w-full lg:w-1/2 flex justify-center"
+          initial={{ x: 100, opacity: 0 }}
+          whileInView={{ x: 0, opacity: 1 }}
+          transition={{ duration: 1 }}
+          viewport={{ once: true }}
+        >
           <Tilt
             className="w-52 h-52 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-[26rem] lg:h-[26rem] border-4 border-purple-700 rounded-full"
             tiltMaxAngleX={20}
@@ -72,7 +95,7 @@ const About = () => {
               className="w-full h-full object-cover rounded-full drop-shadow-[0_10px_30px_rgba(130,69,236,0.5)]"
             />
           </Tilt>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
