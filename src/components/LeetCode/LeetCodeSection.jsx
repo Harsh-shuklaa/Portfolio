@@ -9,17 +9,50 @@ import {
 } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import Tilt from "react-parallax-tilt";
-import AOS from "aos";
-import "aos/dist/aos.css";
+import { motion } from "framer-motion";
+
+// Motion Variants
+const fadeUp = {
+  hidden: { opacity: 0, y: 60 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.8, ease: "easeOut" },
+  },
+};
+
+const fadeLeft = {
+  hidden: { opacity: 0, x: 80 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.9, delay: 0.2 },
+  },
+};
+
+const fadeRight = {
+  hidden: { opacity: 0, x: -80 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.9, delay: 0.2 },
+  },
+};
+
+const zoomIn = {
+  hidden: { opacity: 0, scale: 0.9 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 0.8 },
+  },
+};
 
 const LeetCodeSection = () => {
   const [stats, setStats] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // ✅ Initialize AOS on component mount
-    AOS.init({ duration: 1000, once: true });
-
     const fetchStats = async () => {
       try {
         const res = await fetch(leetcodeStats.apiUrl);
@@ -28,7 +61,8 @@ const LeetCodeSection = () => {
         if (data.status === "error") {
           setError("Profile not found");
         } else {
-          const totalQuestions = data.totalEasy + data.totalMedium + data.totalHard;
+          const totalQuestions =
+            data.totalEasy + data.totalMedium + data.totalHard;
           setStats({ ...data, totalQuestions });
         }
       } catch (err) {
@@ -42,7 +76,9 @@ const LeetCodeSection = () => {
   if (error)
     return (
       <section id="leetcode" className="py-24 px-6 font-sans">
-        <p className="text-center text-red-500 text-lg font-semibold">{error}</p>
+        <p className="text-center text-red-500 text-lg font-semibold">
+          {error}
+        </p>
       </section>
     );
 
@@ -54,21 +90,25 @@ const LeetCodeSection = () => {
     );
 
   return (
-    <section
+    <motion.section
       id="leetcode"
-      className="py-24 px-6 sm:px-[12vw] font-sans relative"
-      data-aos="fade-up"
+      className="py-24 px-6 sm:px-[12vw] font-sans relative overflow-hidden"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.3 }}
+      variants={fadeUp}
     >
       {/* Section Title */}
-      <div className="text-center mb-16" data-aos="fade-down">
+      <motion.div className="text-center mb-16" variants={fadeUp}>
         <h2 className="text-4xl font-bold text-white">LEETCODE</h2>
         <div className="w-32 h-1 bg-purple-500 mx-auto mt-4"></div>
         <p className="text-gray-400 mt-4 text-lg font-semibold">
-          {leetcodeStats.heading || "LeetCode stats fetched from live API using React"}
+          {leetcodeStats.heading ||
+            "LeetCode stats fetched from live API using React"}
         </p>
-      </div>
+      </motion.div>
 
-      {/* ✅ Profile Card with Tilt */}
+      {/* Profile Card */}
       <Tilt
         tiltMaxAngleX={10}
         tiltMaxAngleY={10}
@@ -78,19 +118,19 @@ const LeetCodeSection = () => {
         gyroscope={true}
         className="max-w-4xl mx-auto"
       >
-        <div
+        <motion.div
           className="bg-[#15121e] rounded-2xl shadow-2xl p-6 sm:p-10 transition duration-300 hover:shadow-purple-500/30"
-          data-aos="zoom-in"
+          variants={zoomIn}
         >
           <div className="flex flex-col lg:flex-row justify-between items-center gap-8">
-            {/* Left Side */}
-            <div
+            {/* Left Profile */}
+            <motion.div
               className="flex flex-col items-center lg:items-start text-center lg:text-left gap-4 flex-1"
-              data-aos="fade-right"
+              variants={fadeRight}
             >
               <img
                 src={leetcodeLogo}
-                alt="Harsh Shukla"
+                alt="LeetCode Logo"
                 className="w-28 h-28 sm:w-32 sm:h-32 rounded-full object-cover ring-4 ring-purple-500 drop-shadow-md"
               />
               <div>
@@ -105,27 +145,33 @@ const LeetCodeSection = () => {
                   </span>
                 </p>
               </div>
-              <a
+
+              {/* Button */}
+              <motion.a
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ type: "spring", stiffness: 200, damping: 12 }}
                 href={leetcodeStats.profileUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 mt-2 bg-purple-600 hover:bg-purple-700 hover:shadow-purple-500/40 text-white px-5 py-2 rounded-full text-sm font-bold transition-transform duration-300 transform hover:scale-105"
+                className="inline-flex items-center gap-2 mt-2 text-white px-5 py-2 rounded-full text-sm font-bold transition-transform duration-300"
                 style={{
                   background: "linear-gradient(90deg, #8245ec, #a855f7)",
-                  boxShadow: "0 0 2px #8245ec, 0 0 2px #8245ec, 0 0 40px #8245ec",
+                  boxShadow:
+                    "0 0 2px #8245ec, 0 0 2px #8245ec, 0 0 40px #8245ec",
                 }}
               >
                 <SiLeetcode className="text-xl" />
                 View Full Profile
-              </a>
-            </div>
+              </motion.a>
+            </motion.div>
 
-            {/* Right Side: Stats */}
-            <div
+            {/* Right Stats */}
+            <motion.div
               className="flex flex-col gap-6 flex-1 items-center w-full"
-              data-aos="fade-left"
+              variants={fadeLeft}
             >
-              {/* Circular Total Progress */}
+              {/* Circular Bar */}
               <div className="w-24 h-24">
                 <CircularProgressbar
                   value={(stats.totalSolved / stats.totalQuestions) * 100}
@@ -141,11 +187,13 @@ const LeetCodeSection = () => {
                 />
               </div>
               <p className="text-white text-sm text-center">
-                <span className="text-2xl font-bold">{stats.totalSolved}</span>{" "}
+                <span className="text-2xl font-bold">
+                  {stats.totalSolved}
+                </span>{" "}
                 / {stats.totalQuestions} Completed
               </p>
 
-              {/* Difficulty Breakdown */}
+              {/* Difficulty Bars */}
               <div className="w-full space-y-4">
                 <LevelStat
                   label="Easy"
@@ -166,15 +214,15 @@ const LeetCodeSection = () => {
                   color="bg-red-500"
                 />
               </div>
-            </div>
+            </motion.div>
           </div>
-        </div>
+        </motion.div>
       </Tilt>
-    </section>
+    </motion.section>
   );
 };
 
-// Difficulty Bar Component
+// Level Bar Subcomponent
 const LevelStat = ({ label, solved, total, color }) => {
   const percentage = (solved / total) * 100;
 
